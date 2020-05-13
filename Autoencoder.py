@@ -112,13 +112,16 @@ class Autoencoder:
         return
 
     
-    def unroll(self):
+#     def unroll(self):
         '''
             Unrolls the pretrained RBM network into a DFF keras model 
             and sets hidden layer parameters to pretrained values.
 
             Returns the keras model
         '''
+    def build_encoder(self):
+        
+        
         if self.pretrained == False:
             print("Model not pretrained.")
             return
@@ -136,9 +139,13 @@ class Autoencoder:
             else:
                 x = Dense(self.layer_dims[i+1], 
                           activation='sigmoid',
-                          weights = weights)(x)
-
+                          weights = weights)(x)                
+        return x
+        
+    
+        def build_decoder(self):
         # build decoder
+        
         for i in range(self.num_hidden_layers):
             weights = [self.W[self.num_hidden_layers-i-1].T,self.a[self.num_hidden_layers-i-1].flatten()]
 
